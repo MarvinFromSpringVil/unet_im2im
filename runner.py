@@ -25,9 +25,6 @@ def make_grid_image(np_image):
             
             idx = h*4 + w
 
-            #print(x_start, x_end)
-            #print(grid_image[y_start:y_end, x_start:x_end, :].shape)
-            #print(np_image[idx].shape)
             grid_image[y_start:y_end, x_start:x_end, :] = np_image[idx]
 
 
@@ -40,7 +37,7 @@ def trainer(model, max_epoch, dataloader, loss_fn, optimizer, logdir, device):
     for ep in range(1, max_epoch+1):
         train(model, ep, max_epoch, dataloader, loss_fn, optimizer, device)
 
-        if ep % 10 == 0:
+        if ep % 50 == 0:
             test(model, ep, max_epoch, dataloader, logdir, device)
 
 @torch.no_grad() 
