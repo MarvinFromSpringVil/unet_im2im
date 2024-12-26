@@ -9,6 +9,7 @@ import os
 def opt():
     parser = argparse.ArgumentParser() 
     parser.add_argument('--batch_size', type=int, default=16)
+    parser.add_argument('--mile_stone', nargs="+", type=int)
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--epochs', type=int, default=200)
     parser.add_argument('--test_every', type=int, default=50)
@@ -27,7 +28,6 @@ def main(args):
         print('CPU mode ...!')
         print('CPU mode ...!')
         print('CPU mode ...!')
-
 
     os.makedirs(args.logdir, exist_ok=True) 
 
@@ -53,12 +53,18 @@ def main(args):
     loss_fn = torch.nn.L1Loss()
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr) 
 
+    if args.mile_stone:
+        scheduler = torch.MultiStepLR(optimizer, milestones=args.mile_stone, gamma=0.1)
+    else:
+        scheduler = None 
+
     trainer(
         model=model, 
         max_epoch=args.epochs, 
         dataloader=dataloader,
         loss_fn=loss_fn,
         optimizer=optimizer, 
+        scheduler = scheduler,
         logdir = args.logdir, 
         device = device, 
         test_every = args.test_every
