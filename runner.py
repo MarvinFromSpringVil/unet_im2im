@@ -32,12 +32,12 @@ def make_grid_image(np_image):
     return grid_image
 
 
-def trainer(model, max_epoch, dataloader, loss_fn, optimizer, logdir, device):
+def trainer(model, max_epoch, dataloader, loss_fn, optimizer, logdir, device, test_every):
 
     for ep in range(1, max_epoch+1):
         train(model, ep, max_epoch, dataloader, loss_fn, optimizer, device)
 
-        if ep % 50 == 0:
+        if ep % test_every == 0:
             test(model, ep, max_epoch, dataloader, logdir, device)
 
 @torch.no_grad() 

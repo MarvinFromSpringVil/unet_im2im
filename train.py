@@ -11,6 +11,7 @@ def opt():
     parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--epochs', type=int, default=200)
+    parser.add_argument('--test_every', type=int, default=50)
     parser.add_argument('--root_dir', type=str, default='./DeepStain')
     parser.add_argument('--logdir', type=str, default='./log')
     return parser.parse_args() 
@@ -59,7 +60,8 @@ def main(args):
         loss_fn=loss_fn,
         optimizer=optimizer, 
         logdir = args.logdir, 
-        device = device
+        device = device, 
+        test_every = args.test_every
     )
 
 if __name__ == '__main__':
