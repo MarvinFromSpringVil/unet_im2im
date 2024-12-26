@@ -59,7 +59,7 @@ def main(args):
         loss_fn=loss_fn,
         optimizer=optimizer, 
         logdir = args.logdir, 
-        device
+        device = device
     )
 
 if __name__ == '__main__':
