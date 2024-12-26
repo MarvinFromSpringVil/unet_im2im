@@ -16,7 +16,7 @@ def opt():
     return parser.parse_args() 
 
 def main(args):
-    if torch.is_cuda_available():
+    if torch.cuda.is_available():
         device = torch.device("gpu")
         print('GPU mode ...!')
         print('GPU mode ...!')
