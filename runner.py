@@ -35,24 +35,24 @@ def make_grid_image(np_image):
     return grid_image
 
 
-def trainer(model, max_epoch, dataloader, loss_fn, optimizer, logdir):
+def trainer(model, max_epoch, dataloader, loss_fn, optimizer, logdir, device):
 
     for ep in range(1, max_epoch+1):
-        train(model, ep, max_epoch, dataloader, loss_fn, optimizer)
+        train(model, ep, max_epoch, dataloader, loss_fn, optimizer, device)
 
         if ep % 10 == 0:
-            test(model, ep, max_epoch, dataloader, logdir)
+            test(model, ep, max_epoch, dataloader, logdir, device)
 
 @torch.no_grad() 
-def test(model, ep, max_epoch, dataloader, logdir):
+def test(model, ep, max_epoch, dataloader, logdir, device):
     model.eval() 
 
     dst_root = os.path.join(logdir, str(ep)) 
     os.makedirs(dst_root, exist_ok=True)
 
     for i, elem in enumerate(dataloader):
-        x = elem['x']
-        y = elem['y']
+        x = elem['x'].to(device)
+        y = elem['y'].to(device)
 
         out = model(x)
 
@@ -68,15 +68,15 @@ def test(model, ep, max_epoch, dataloader, logdir):
         
 
 
-def train(model, ep, max_epoch, dataloader, loss_fn, optimizer):
+def train(model, ep, max_epoch, dataloader, loss_fn, optimizer, device):
     model.train() 
 
     running_loss = 0.0 
     for elem in dataloader:
         optimizer.zero_grad()
 
-        x = elem['x']
-        y = elem['y']
+        x = elem['x'].to(device)
+        y = elem['y'].to(device)
 
         out = model(x)
 

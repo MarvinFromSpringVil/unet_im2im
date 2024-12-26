@@ -16,6 +16,18 @@ def opt():
     return parser.parse_args() 
 
 def main(args):
+    if torch.is_cuda_available():
+        device = torch.device("gpu")
+        print('GPU mode ...!')
+        print('GPU mode ...!')
+        print('GPU mode ...!')
+    else:
+        device = torch.device("cpu")
+        print('CPU mode ...!')
+        print('CPU mode ...!')
+        print('CPU mode ...!')
+
+
     os.makedirs(args.logdir, exist_ok=True) 
 
     TRANSFORMS = transforms.Compose([
@@ -34,6 +46,7 @@ def main(args):
 
     # model 
     model = get_model() 
+    model = model.to(device)
 
     # loss function & optimizer 
     loss_fn = torch.nn.L1Loss()
@@ -45,7 +58,8 @@ def main(args):
         dataloader=dataloader,
         loss_fn=loss_fn,
         optimizer=optimizer, 
-        logdir = args.logdir
+        logdir = args.logdir, 
+        device
     )
 
 if __name__ == '__main__':
