@@ -17,7 +17,7 @@ def opt():
 
 def main(args):
     if torch.cuda.is_available():
-        device = torch.device("gpu")
+        device = torch.device("cuda")
         print('GPU mode ...!')
         print('GPU mode ...!')
         print('GPU mode ...!')
